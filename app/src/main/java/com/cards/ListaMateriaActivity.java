@@ -54,7 +54,17 @@ public class ListaMateriaActivity extends AppCompatActivity {
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return true;
+            if(item.getItemId() == R.id.menuItemEditar){
+                editar();
+                mode.finish();
+                return true;
+            } else if (item.getItemId() == R.id.menuItemExcluir){
+                excluirMateriaSelecionada();
+                mode.finish();
+                return true;
+            } else {
+                return false;
+            }
         }
 
         @Override
@@ -138,7 +148,12 @@ public class ListaMateriaActivity extends AppCompatActivity {
         startActivityForResult(intent, CADASTRAR_MATERIA);
     }
 
-    public void excluirMateriaSelecionada(View view){
+    public void editar(){
+        Materia materia = listMaterias.get(posicaoSelecionada);
+        CadastraMateriaActivity.alterarMateria(this,materia);
+    }
+
+    public void excluirMateriaSelecionada(){
         listMaterias.remove(posicaoSelecionada);
         adapter.notifyDataSetChanged();
     }
