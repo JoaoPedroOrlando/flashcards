@@ -1,11 +1,14 @@
 package com.cards;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -95,7 +98,7 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
 
     }
 
-    public void cleanFields( View view){
+    public void cleanFields( ){
         //limpa texto do input
         et_materia.setText(null);
         //remove check do radio button
@@ -110,7 +113,7 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
 
     }
 
-    public void saveSubject(View view){
+    public void saveSubject(){
         //input
         String subject = et_materia.getText().toString();
         if(subject == null || subject.trim().isEmpty()){
@@ -155,6 +158,25 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
     public void onBackPressed(){
         setResult(Activity.RESULT_CANCELED);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_cadastro_materia,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menuItemSalvar){
+            saveSubject();
+            return true;
+        }else if(item.getItemId() == R.id.menuItemLimpar){
+            cleanFields();
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     public void popularCampos(Bundle bundle){

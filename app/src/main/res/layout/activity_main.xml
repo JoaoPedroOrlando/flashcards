@@ -31,18 +31,6 @@
         app:layout_constraintTop_toBottomOf="@+id/et_materia" />
 
 
-    <Button
-        android:id="@+id/button_salvar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:onClick="saveSubject"
-        android:text="@string/salvar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_frequencia" />
-
     <RadioGroup
         android:id="@+id/radio_group_frequencia"
         android:layout_width="208dp"
@@ -116,18 +104,5 @@
         app:layout_constraintHorizontal_bias="0.469"
         app:layout_constraintStart_toEndOf="@+id/spinner_tipo"
         app:layout_constraintTop_toBottomOf="@+id/et_materia" />
-
-    <Button
-        android:id="@+id/button_limpar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="cleanFields"
-        android:text="@string/limpar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.032"
-        app:layout_constraintStart_toEndOf="@+id/button_salvar"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_frequencia" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
