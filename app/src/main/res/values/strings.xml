@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">FlashCards</string>
+    <string name="materia">Matéria</string>
+    <string name="limpar">Limpar</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="erro_materia">Campo Matéria não pode ser nulo</string>
+    <string name="erro_frequencia_estudo">Campo Frequência de estudo não pode ser nulo</string>
+    <string-array name="tipo_array">
+        <item>Faculdade</item>
+        <item>Concurso</item>
+        <item>Colégio</item>
+    </string-array>
+    <string name="diario">Diário</string>
+    <string name="semanal">Semanal</string>
+    <string name="mensal">Mensal</string>
+    <string name="frequencia_estudo">Frequência de estudo</string>
+    <string name="ativo">Ativo</string>
+    <string name="salvar">Salvar</string>
+    <string name="title_activity_listagem_materias">ListagemMateriasActivity</string>
+    <string name="tipo">Tipo</string>
+    <string name="faculdade">Faculdade</string>
+    <string name="colegio">Colégio</string>
+    <string name="concurso">Concurso</string>
+    <string name="materia_nome">"Matéria: "</string>
+    <string name="frequencia_nome">"Frequência: "</string>
+    <string name="tipo_nome">"Tipo: "</string>
+    <string name="foi_clicada">" Foi Clicada!"</string>
+    <string name="autor">"Autor: "</string>
+    <string name="nome">"Nome: "</string>
+    <string name="curso">"Curso: "</string>
+    <string name="email">"E-mail: "</string>
+    <string name="descricao">"Descrição: "</string>
+    <string name="nome_autor">João Pedro Orlando</string>
+    <string name="email_autor">joaoorlando@alunos.utfpr.edu.br</string>
+    <string name="curso_autor">Pós Graduação Tecnologia Java</string>
+    <string name="descricao_autor">"App para estudo com flashcards"</string>
+    <string name="sobre">Sobre</string>
+    <string name="editar">Editar</string>
+    <string name="excluir">Excluir</string>
+</resources>

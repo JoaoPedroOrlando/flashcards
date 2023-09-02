@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nome_materias">
+        <item>Direito Adm.</item>
+        <item>Direito Constitucional</item>
+        <item>Raciocínio Lógico</item>
+        <item>Programação</item>
+        <item>Direito Processual Penal</item>
+        <item>Portugês</item>
+        <item>Matemática</item>
+        <item>Direito Penal</item>
+        <item>Lei Maria da Penha</item>
+        <item>Atualidades</item>
+    </string-array>
+
+    <string-array name="status_materias">
+        <item>Ativo</item>
+        <item>Ativo</item>
+        <item>Inativo</item>
+        <item>Ativo</item>
+        <item>Ativo</item>
+        <item>Inativo</item>
+        <item>Ativo</item>
+        <item>Ativo</item>
+        <item>Ativo</item>
+        <item>Ativo</item>
+    </string-array>
+
+    <string-array name="tipo_materias">
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+        <item>CONCURSO</item>
+    </string-array>
+
+    <string-array name="frequencia_materias">
+        <item>DIARIO</item>
+        <item>DIARIO</item>
+        <item>SEMANAL</item>
+        <item>DIARIO</item>
+        <item>DIARIO</item>
+        <item>SEMANAL</item>
+        <item>DIARIO</item>
+        <item>DIARIO</item>
+        <item>DIARIO</item>
+        <item>SEMANAL</item>
+    </string-array>
+</resources>
