@@ -66,7 +66,7 @@ public class MateriaAdapter extends BaseAdapter {
         holder.textViewValorMateria.setText(materias.get(position).getNome());
 
         switch(materias.get(position).getTipo()){
-            case COLEGIO:
+            case COLÉGIO:
                 holder.textViewValorTipo.setText(R.string.colegio);
                 break;
             case CONCURSO:

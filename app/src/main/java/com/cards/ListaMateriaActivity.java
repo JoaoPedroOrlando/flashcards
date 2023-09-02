@@ -162,47 +162,24 @@ public class ListaMateriaActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == CadastraMateriaActivity.NOVO && resultCode == Activity.RESULT_OK){
-            Bundle bundle = data.getExtras();
-            String nome = bundle.getString(CadastraMateriaActivity.MATERIA);
-            TipoMateria tipo = null;
-            Boolean status = bundle.getBoolean(CadastraMateriaActivity.ATIVO);
-            FrequenciaMateria frequencia = null;
+        if(requestCode == CadastraMateriaActivity.NOVO
+                && resultCode == Activity.RESULT_OK){
 
-            switch(bundle.getString(CadastraMateriaActivity.TIPO).toUpperCase()){
-                case "CONCURSO":
-                    tipo = TipoMateria.CONCURSO;
-                    break;
-                case "COLÉGIO":
-                    tipo = TipoMateria.COLEGIO;
-                    break;
-                case "FACULDADE":
-                    tipo = TipoMateria.FACULDADE;
-                    break;
-            }
-
-            switch(bundle.getString(CadastraMateriaActivity.FREQUENCIA).toUpperCase()){
-                case "DIÁRIO":
-                    frequencia = FrequenciaMateria.DIARIO;
-                    break;
-                case "SEMANAL":
-                    frequencia = FrequenciaMateria.SEMANAL;
-                    break;
-                case "MENSAL":
-                    frequencia = FrequenciaMateria.MENSAL;
-                    break;
-            }
-
-            Materia novaMateria = new Materia(
-                nome,
-                status,
-                tipo,
-                frequencia
-            );
-            listMaterias.add(novaMateria);
-            if (adapter != null)
-                adapter.notifyDataSetChanged();
+            listMaterias.add(getMateriaFromActivityResult(data));
         }
+        if(requestCode == CadastraMateriaActivity.ALTERAR
+                && resultCode == Activity.RESULT_OK){
+            Materia materiaEditada = getMateriaFromActivityResult(data);
+            Materia materia = listMaterias.get(posicaoSelecionada);
+            materia.setNome(materiaEditada.getNome());
+            materia.setFrequencia(materiaEditada.getFrequencia());
+            materia.setTipo(materiaEditada.getTipo());
+            materia.setStatus(materiaEditada.getStatus());
+            posicaoSelecionada = -1;
+        }
+
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -227,5 +204,44 @@ public class ListaMateriaActivity extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    public Materia getMateriaFromActivityResult(Intent data){
+        Bundle bundle = data.getExtras();
+        String nome = bundle.getString(CadastraMateriaActivity.MATERIA);
+        TipoMateria tipo = null;
+        Boolean status = bundle.getBoolean(CadastraMateriaActivity.ATIVO);
+        FrequenciaMateria frequencia = null;
+
+        switch(bundle.getString(CadastraMateriaActivity.TIPO).toUpperCase()){
+            case "CONCURSO":
+                tipo = TipoMateria.CONCURSO;
+                break;
+            case "COLÉGIO":
+                tipo = TipoMateria.COLÉGIO;
+                break;
+            case "FACULDADE":
+                tipo = TipoMateria.FACULDADE;
+                break;
+        }
+
+        switch(bundle.getString(CadastraMateriaActivity.FREQUENCIA).toUpperCase()){
+            case "DIÁRIO":
+                frequencia = FrequenciaMateria.DIARIO;
+                break;
+            case "SEMANAL":
+                frequencia = FrequenciaMateria.SEMANAL;
+                break;
+            case "MENSAL":
+                frequencia = FrequenciaMateria.MENSAL;
+                break;
+        }
+
+        return new Materia(
+                nome,
+                status,
+                tipo,
+                frequencia
+        );
     }
 }
