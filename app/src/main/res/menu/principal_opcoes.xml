@@ -10,17 +10,17 @@
         android:title="@string/adicionar"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menuItemSobre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@android:drawable/ic_dialog_info"
-        android:title="@string/sobre"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/menuItemConfiguracoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/configuracoes"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemSobre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="@string/sobre"
         app:showAsAction="ifRoom" />
 </menu>

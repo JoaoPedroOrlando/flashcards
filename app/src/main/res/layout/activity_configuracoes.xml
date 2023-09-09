@@ -6,4 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".ConfiguracoesActivity">
 
+    <Spinner
+        android:id="@+id/spinnerIdioma"
+        android:layout_width="118dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:entries="@array/idioma"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewIdioma" />
+
+    <TextView
+        android:id="@+id/textViewIdioma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/selecao_idioma"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewOrdemLista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ordem_lista"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerIdioma" />
+
+    <Spinner
+        android:id="@+id/spinnerOdemListagem"
+        android:layout_width="118dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOrdemLista" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

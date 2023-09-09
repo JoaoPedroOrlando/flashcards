@@ -38,4 +38,15 @@
     <string name="editar">Editar</string>
     <string name="excluir">Excluir</string>
     <string name="configuracoes">Configurações</string>
+    <string name="selecao_idioma">"Idioma padrão: "</string>
+    <string name="ordem_lista">"Ordem de listagem: "</string>
+    <string-array name="idioma">
+        <item>ENG</item>
+        <item>PT-BR</item>
+    </string-array>
+    <string-array name="ordem_listagem">
+        <item>DESC</item>
+        <item>ASC</item>
+    </string-array>
+    <string name="salvo_sucesso">Salvo com sucesso!</string>
 </resources>

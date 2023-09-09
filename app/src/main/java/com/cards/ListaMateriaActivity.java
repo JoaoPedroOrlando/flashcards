@@ -201,7 +201,12 @@ public class ListaMateriaActivity extends AppCompatActivity {
                     SobreActivity.class);
             startActivity(intent);
             return true;
-        } else {
+        } else if(id == R.id.menuItemConfiguracoes){
+            Intent intent = new Intent(this,
+                    ConfiguracoesActivity.class);
+            startActivity(intent);
+            return true;
+        }else {
             return true;
         }
     }
