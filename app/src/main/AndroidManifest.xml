@@ -13,9 +13,13 @@
         android:theme="@style/Theme.Cards"
         tools:targetApi="31">
         <activity
+            android:name=".ConfiguracoesActivity"
+            android:exported="false"
+            android:parentActivityName=".ListaMateriaActivity"/>
+        <activity
             android:name=".SobreActivity"
-            android:parentActivityName=".ListaMateriaActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ListaMateriaActivity" />
         <activity
             android:name=".ListaMateriaActivity"
             android:exported="true">
@@ -27,7 +31,7 @@
         </activity>
         <activity
             android:name=".CadastraMateriaActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
