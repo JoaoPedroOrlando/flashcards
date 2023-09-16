@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.cards.entites.Materia;
 import com.cards.entites.enums.FrequenciaMateria;
 import com.cards.entites.enums.TipoMateria;
+import com.cards.repository.MateriaDatabase;
 
 public class CadastraMateriaActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -30,39 +31,29 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
     private RadioButton rb_frequencia;
     private String tipoMateria;
     private CheckBox cb_ativo;
-
     private int modo;
 
-    public static final String MATERIA = "MATERIA";
-    public static final String TIPO ="TIPO";
-    public static final String FREQUENCIA = "FREQUENCIA";
-    public static final String ATIVO = "ATIVO";
-
     public static final String MODO    = "MODO";
-
     public static final int    NOVO    = 1;
     public static final int    ALTERAR = 2;
-
-    public static void novaMateria(AppCompatActivity activity){
+    public static final String ID = "ID";
+    private Materia materia;
+    public static void novaMateria(AppCompatActivity activity, int requestCode){
 
         Intent intent = new Intent(activity, CadastraMateriaActivity.class);
 
         intent.putExtra(MODO, NOVO);
 
-        activity.startActivityForResult(intent, NOVO);
+        activity.startActivityForResult(intent, requestCode);
     }
-
-    public static void alterarMateria(AppCompatActivity activity, Materia materia){
+    public static void alterarMateria(AppCompatActivity activity,int requestCode, Materia materia){
 
         Intent intent = new Intent(activity, CadastraMateriaActivity.class);
 
         intent.putExtra(MODO, ALTERAR);
-        intent.putExtra(MATERIA, materia.getNome());
-        intent.putExtra(FREQUENCIA, materia.getFrequencia().toString());
-        intent.putExtra(ATIVO, materia.getStatus());
-        intent.putExtra(TIPO, materia.getTipo().toString());
+        intent.putExtra(ID,materia.getId());
 
-        activity.startActivityForResult(intent, ALTERAR);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     @SuppressLint("MissingInflatedId")
@@ -88,13 +79,22 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
 
         //CHECKBOX
         cb_ativo = findViewById(R.id.checkbox_ativo);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
         if (bundle != null){
             modo = bundle.getInt(MODO, NOVO);
-            if (modo == ALTERAR)
+
+            if (modo == ALTERAR){
+                int id = bundle.getInt(ID);
+                MateriaDatabase dabase = MateriaDatabase.getDatabase(this);
+
+                materia = dabase.materiaDao().queryForId(id);
                 popularCampos(bundle);
+            } else{
+                materia = new Materia();
+            }
         }
 
     }
@@ -116,8 +116,8 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
 
     public void saveSubject(){
         //input
-        String subject = et_materia.getText().toString();
-        if(subject == null || subject.trim().isEmpty()){
+        String nome = et_materia.getText().toString();
+        if(nome == null || nome.trim().isEmpty()){
             Toast.makeText(this, R.string.erro_materia, Toast.LENGTH_LONG).show();
             et_materia.requestFocus();
             return;
@@ -130,15 +130,19 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
             rg_frequencia.requestFocus();
             return;
         }
-        cb_ativo = findViewById(R.id.checkbox_ativo);
-        String rbTxt = rb_frequencia.getText().toString();
-        Intent intent = new Intent();
-        intent.putExtra(MATERIA,subject);
-        intent.putExtra(TIPO,this.tipoMateria);
-        intent.putExtra(FREQUENCIA,rbTxt);
-        intent.putExtra(ATIVO, cb_ativo.isActivated());
+        String frequencia = rb_frequencia.getText().toString();
 
-        setResult(Activity.RESULT_OK,intent);
+        materia.setNome(nome);
+        materia.setFrequencia(frequencia);
+        materia.setTipo(this.tipoMateria);
+        materia.setStatus(cb_ativo.isActivated());
+        MateriaDatabase database = MateriaDatabase.getDatabase(this);
+        if(modo == NOVO){
+            database.materiaDao().insert(materia);
+        }else{
+            database.materiaDao().update(materia);
+        }
+        setResult(Activity.RESULT_OK);
         finish();
     }
 
@@ -182,12 +186,11 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
 
     public void popularCampos(Bundle bundle){
         // TIPO - SPINNER
-        String spinnerValue = bundle.getString(TIPO).toUpperCase();
         Spinner spinner = findViewById(R.id.spinner_tipo);
         String[] tipoArray = getResources().getStringArray(R.array.tipo_array);
         int selectedIndex = -1;
         for (int i = 0; i < tipoArray.length; i++) {
-            if (tipoArray[i].toUpperCase().equals(spinnerValue)) {
+            if (tipoArray[i].toUpperCase().equals(materia.getTipo())) {
                 selectedIndex = i;
                 break;
             }
@@ -199,7 +202,7 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
         // FREQUENCIA - RADIO GROUP
         RadioGroup radioGroup = findViewById(R.id.radio_group_frequencia);
         int radioGroupId = -1;
-        switch(bundle.getString(FREQUENCIA).toUpperCase()){
+        switch(materia.getFrequencia().toUpperCase()){
             case "DIÁRIO":
                 radioGroupId = R.id.radio_diario;
                 break;
@@ -215,10 +218,10 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
         }
 
         // MATÉRIA - EDITTEXT
-        et_materia.setText(bundle.getString(MATERIA));
+        et_materia.setText(materia.getNome());
 
         // ATIVO - CHECKBOX
-        if (bundle.getBoolean(ATIVO)){
+        if (materia.getStatus()){
             cb_ativo.setChecked(true);
         } else{
             cb_ativo.setChecked(false);

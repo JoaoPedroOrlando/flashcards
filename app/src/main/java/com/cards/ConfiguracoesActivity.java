@@ -3,6 +3,7 @@ package com.cards;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,12 +19,10 @@ import android.widget.Toast;
 
 public class ConfiguracoesActivity extends AppCompatActivity{
     public static String ARQUIVO = "br.joaopedroorlando.flashcards.CONFIG_GERAIS";
-    public static final String IDIOMA = "IDIOMA";
-    public static final String ORDEM = "ORDEM";
-    private Spinner spinnerIdioma;
-    private Spinner spinnerOrdem;
-    private String padraoIdioma = "ENG";
-    private String padraoOrdem = "DESC";
+    public static final String MODO = "MODO";
+    private Spinner spinnerModo;
+    private String padraoModo = "LIGHT";
+    private String previousModeConfig;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -36,39 +35,24 @@ public class ConfiguracoesActivity extends AppCompatActivity{
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         // referenciando o spinner na classe
-        this.spinnerIdioma = findViewById(R.id.spinnerIdioma);
-        this.spinnerOrdem = findViewById(R.id.spinnerOdemListagem);
+        this.spinnerModo = findViewById(R.id.spinnerModo);
         //criando um array adapter a partir de um string array
-        ArrayAdapter<CharSequence> arrayAdapterIdioma = ArrayAdapter.createFromResource(this,R.array.idioma,android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> arrayAdapterOrdem =  ArrayAdapter.createFromResource(this,R.array.ordem_listagem,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> arrayAdapterOrdem =  ArrayAdapter.createFromResource(this,R.array.theme_mode,android.R.layout.simple_spinner_item);
         //especificando o layout
-        arrayAdapterIdioma.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         arrayAdapterOrdem.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //vinculando o adapter ao spinner
-        spinnerIdioma.setAdapter(arrayAdapterIdioma);
-        spinnerOrdem.setAdapter(arrayAdapterOrdem);
+        spinnerModo.setAdapter(arrayAdapterOrdem);
 
         // definindo os listeners
-        spinnerOrdem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerModo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                padraoOrdem = parentView.getItemAtPosition(position).toString();
+            public void onItemSelected(AdapterView<?> parent, View selectedItemView, int position, long id) {
+                padraoModo = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {}
         });
-
-        spinnerIdioma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                padraoIdioma = parentView.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
-        });
-
         lerConfigs();
     }
 
@@ -91,11 +75,9 @@ public class ConfiguracoesActivity extends AppCompatActivity{
     private void lerConfigs(){
         SharedPreferences sharedPreferences = getSharedPreferences(ARQUIVO, Context.MODE_PRIVATE);
 
-        this.padraoIdioma = sharedPreferences.getString(IDIOMA,this.padraoIdioma);
-        this.padraoOrdem = sharedPreferences.getString(ORDEM,this.padraoOrdem);
-
-        this.defineValorSpinner(padraoIdioma,spinnerIdioma,getResources().getStringArray(R.array.idioma));
-        this.defineValorSpinner(padraoOrdem,spinnerOrdem,getResources().getStringArray(R.array.ordem_listagem));
+        this.padraoModo = sharedPreferences.getString(MODO,this.padraoModo);
+        this.previousModeConfig = sharedPreferences.getString(MODO,this.padraoModo);
+        this.defineValorSpinner(padraoModo,spinnerModo,getResources().getStringArray(R.array.theme_mode));
     }
 
     private void defineValorSpinner(String spinnerValue, Spinner spinner, String[] array){
@@ -114,9 +96,16 @@ public class ConfiguracoesActivity extends AppCompatActivity{
     private void saveConfigs(){
         SharedPreferences sharedPreferences = getSharedPreferences(ARQUIVO,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(IDIOMA,this.padraoIdioma);
-        editor.putString(ORDEM,this.padraoOrdem);
-        editor.commit();
-        Toast.makeText(getApplicationContext(), R.string.salvo_sucesso, Toast.LENGTH_SHORT).show();
+        if(!this.padraoModo.equals(this.previousModeConfig)){
+            editor.putString(MODO,this.padraoModo);
+            editor.commit();
+            if (this.padraoModo.equals("LIGHT")) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else if (this.padraoModo.equals("DARK")) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            recreate();
+        }
+
     }
 }

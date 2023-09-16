@@ -65,26 +65,26 @@ public class MateriaAdapter extends BaseAdapter {
 
         holder.textViewValorMateria.setText(materias.get(position).getNome());
 
-        switch(materias.get(position).getTipo()){
-            case COLÉGIO:
+        switch(materias.get(position).getTipo().toUpperCase()){
+            case "COLÉGIO":
                 holder.textViewValorTipo.setText(R.string.colegio);
                 break;
-            case CONCURSO:
+            case "CONCURSO":
                 holder.textViewValorTipo.setText(R.string.concurso);
                 break;
-            case FACULDADE:
+            case "FACULDADE":
                 holder.textViewValorTipo.setText(R.string.faculdade);
                 break;
         }
 
-        switch(materias.get(position).getFrequencia()){
-            case DIARIO:
+        switch(materias.get(position).getFrequencia().toUpperCase()){
+            case "DIÁRIO":
                 holder.textViewValorFrequencia.setText(R.string.diario);
                 break;
-            case SEMANAL:
+            case "SEMANAL":
                 holder.textViewValorFrequencia.setText(R.string.semanal);
                 break;
-            case MENSAL:
+            case "MENSAL":
                 holder.textViewValorFrequencia.setText(R.string.mensal);
                 break;
         }

@@ -1,52 +1,54 @@
 <resources>
     <string name="app_name">FlashCards</string>
-    <string name="materia">Matéria</string>
-    <string name="limpar">Limpar</string>
-    <string name="adicionar">Adicionar</string>
-    <string name="erro_materia">Campo Matéria não pode ser nulo</string>
-    <string name="erro_frequencia_estudo">Campo Frequência de estudo não pode ser nulo</string>
+    <string name="materia">Subject</string>
+    <string name="limpar">Clean</string>
+    <string name="adicionar">Add</string>
+    <string name="erro_materia">Field subject can\'t be null</string>
+    <string name="erro_frequencia_estudo">Field frequency can\'t be null</string>
     <string-array name="tipo_array">
         <item>Faculdade</item>
         <item>Concurso</item>
         <item>Colégio</item>
     </string-array>
     <string name="diario">Diário</string>
-    <string name="semanal">Semanal</string>
-    <string name="mensal">Mensal</string>
-    <string name="frequencia_estudo">Frequência de estudo</string>
-    <string name="ativo">Ativo</string>
-    <string name="salvar">Salvar</string>
+    <string name="frequencia_estudo">Study frequency</string>
+    <string name="ativo">Active</string>
+    <string name="salvar">Save</string>
     <string name="title_activity_listagem_materias">ListagemMateriasActivity</string>
-    <string name="tipo">Tipo</string>
-    <string name="faculdade">Faculdade</string>
-    <string name="colegio">Colégio</string>
-    <string name="concurso">Concurso</string>
-    <string name="materia_nome">"Matéria: "</string>
-    <string name="frequencia_nome">"Frequência: "</string>
-    <string name="tipo_nome">"Tipo: "</string>
-    <string name="foi_clicada">" Foi Clicada!"</string>
-    <string name="autor">"Autor: "</string>
-    <string name="nome">"Nome: "</string>
-    <string name="curso">"Curso: "</string>
+    <string name="tipo">Type</string>
+    <string name="faculdade">College</string>
+    <string name="colegio">School</string>
+    <string name="concurso">Public Tender</string>
+    <string name="materia_nome">"Subject: "</string>
+    <string name="frequencia_nome">"Frequency: "</string>
+    <string name="tipo_nome">"Type: "</string>
+    <string name="foi_clicada">It has been clicked!</string>
+    <string name="autor">"Author: "</string>
+    <string name="nome">"Name: "</string>
+    <string name="curso">"Course: "</string>
     <string name="email">"E-mail: "</string>
-    <string name="descricao">"Descrição: "</string>
+    <string name="descricao">"Description: "</string>
     <string name="nome_autor">João Pedro Orlando</string>
     <string name="email_autor">joaoorlando@alunos.utfpr.edu.br</string>
-    <string name="curso_autor">Pós Graduação Tecnologia Java</string>
-    <string name="descricao_autor">"App para estudo com flashcards"</string>
-    <string name="sobre">Sobre</string>
-    <string name="editar">Editar</string>
-    <string name="excluir">Excluir</string>
-    <string name="configuracoes">Configurações</string>
-    <string name="selecao_idioma">"Idioma padrão: "</string>
-    <string name="ordem_lista">"Ordem de listagem: "</string>
+    <string name="curso_autor">Post Degree Java Technology</string>
+    <string name="descricao_autor">App for study with flashcards</string>
+    <string name="sobre">About</string>
+    <string name="editar">Edit</string>
+    <string name="excluir">Delete</string>
+    <string name="configuracoes">Configurations</string>
+    <string name="selecao_idioma">"Default Language: "</string>
+    <string name="ordem_lista">"Listing order by subject: "</string>
     <string-array name="idioma">
         <item>ENG</item>
         <item>PT-BR</item>
     </string-array>
-    <string-array name="ordem_listagem">
-        <item>DESC</item>
-        <item>ASC</item>
+    <string-array name="theme_mode">
+        <item>LIGHT</item>
+        <item>DARK</item>
     </string-array>
-    <string name="salvo_sucesso">Salvo com sucesso!</string>
+    <string name="salvo_sucesso">Save successfully!</string>
+    <string name="semanal">Semanal</string>
+    <string name="mensal">Mensal</string>
+    <string name="exibe_numero_itens_lista">Show subject\'s list number</string>
+    <string name="theme_mode">"Theme mode: "</string>
 </resources>

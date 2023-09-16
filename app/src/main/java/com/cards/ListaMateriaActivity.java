@@ -5,9 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.ActionMode;;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,17 +25,21 @@ import com.cards.adapters.MateriaAdapter;
 import com.cards.entites.Materia;
 import com.cards.entites.enums.FrequenciaMateria;
 import com.cards.entites.enums.TipoMateria;
+import com.cards.helpers.ThemePreferences;
+import com.cards.repository.MateriaDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListaMateriaActivity extends AppCompatActivity {
 
     private ListView listView;
-    private ArrayList<Materia> listMaterias;
-    private ArrayList<MateriaAdapter> listMateriaAdapter;
+    private List<Materia> listMaterias;
     private MateriaAdapter adapter;
 
     public static final int CADASTRAR_MATERIA = 1;
+
+    public static final int ALTERAR_MATERIA = 2;
 
     private ActionMode actionMode;
     private int        posicaoSelecionada = -1;
@@ -83,8 +91,7 @@ public class ListaMateriaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_materia);
-
+        this.startConfigs();
         listView = findViewById(R.id.listViewMaterias);
 
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -130,56 +137,33 @@ public class ListaMateriaActivity extends AppCompatActivity {
     }
 
     private void popularLista(){
-        this.listMaterias = new ArrayList<>();
+        MateriaDatabase database = MateriaDatabase.getDatabase(this);
+        this.listMaterias = database.materiaDao().queryAll();
         adapter = new MateriaAdapter(this,this.listMaterias);
         listView.setAdapter(adapter);
 
     }
 
-    public void sobre(View view){
-        Intent intent = new Intent(this,
-                                    SobreActivity.class);
-        startActivity(intent);
-    }
-
-    public void adicionar(View view){
-        Intent intent = new Intent(this,
-                CadastraMateriaActivity.class);
-        startActivityForResult(intent, CADASTRAR_MATERIA);
-    }
-
     public void editar(){
         Materia materia = listMaterias.get(posicaoSelecionada);
-        CadastraMateriaActivity.alterarMateria(this,materia);
+        CadastraMateriaActivity.alterarMateria(this,ALTERAR_MATERIA,materia);
     }
 
     public void excluirMateriaSelecionada(){
+        Materia materia = listMaterias.get(posicaoSelecionada);
         listMaterias.remove(posicaoSelecionada);
+        MateriaDatabase database = MateriaDatabase.getDatabase(this);
+        database.materiaDao().delete(materia);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == CadastraMateriaActivity.NOVO
-                && resultCode == Activity.RESULT_OK){
-
-            listMaterias.add(getMateriaFromActivityResult(data));
+        if ((requestCode == CADASTRAR_MATERIA || requestCode == ALTERAR_MATERIA) &&
+                resultCode == Activity.RESULT_OK){
+            popularLista();
         }
-        if(requestCode == CadastraMateriaActivity.ALTERAR
-                && resultCode == Activity.RESULT_OK){
-            Materia materiaEditada = getMateriaFromActivityResult(data);
-            Materia materia = listMaterias.get(posicaoSelecionada);
-            materia.setNome(materiaEditada.getNome());
-            materia.setFrequencia(materiaEditada.getFrequencia());
-            materia.setTipo(materiaEditada.getTipo());
-            materia.setStatus(materiaEditada.getStatus());
-            posicaoSelecionada = -1;
-        }
-
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -192,9 +176,7 @@ public class ListaMateriaActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.menuItemAdicionar){
-            Intent intent = new Intent(this,
-                    CadastraMateriaActivity.class);
-            startActivityForResult(intent, CADASTRAR_MATERIA);
+            CadastraMateriaActivity.novaMateria(this,CADASTRAR_MATERIA);
             return true;
         }else if(id == R.id.menuItemSobre){
             Intent intent = new Intent(this,
@@ -211,42 +193,15 @@ public class ListaMateriaActivity extends AppCompatActivity {
         }
     }
 
-    public Materia getMateriaFromActivityResult(Intent data){
-        Bundle bundle = data.getExtras();
-        String nome = bundle.getString(CadastraMateriaActivity.MATERIA);
-        TipoMateria tipo = null;
-        Boolean status = bundle.getBoolean(CadastraMateriaActivity.ATIVO);
-        FrequenciaMateria frequencia = null;
 
-        switch(bundle.getString(CadastraMateriaActivity.TIPO).toUpperCase()){
-            case "CONCURSO":
-                tipo = TipoMateria.CONCURSO;
-                break;
-            case "COLÉGIO":
-                tipo = TipoMateria.COLÉGIO;
-                break;
-            case "FACULDADE":
-                tipo = TipoMateria.FACULDADE;
-                break;
-        }
-
-        switch(bundle.getString(CadastraMateriaActivity.FREQUENCIA).toUpperCase()){
-            case "DIÁRIO":
-                frequencia = FrequenciaMateria.DIARIO;
-                break;
-            case "SEMANAL":
-                frequencia = FrequenciaMateria.SEMANAL;
-                break;
-            case "MENSAL":
-                frequencia = FrequenciaMateria.MENSAL;
-                break;
-        }
-
-        return new Materia(
-                nome,
-                status,
-                tipo,
-                frequencia
-        );
+    private void startConfigs(){
+        String savedTheme = ThemePreferences.getSavedTheme(this,"LIGHT");
+        if(savedTheme.equals("DARK"))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else if(savedTheme.equals("LIGHT"))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        setContentView(R.layout.activity_lista_materia);
     }
 }
