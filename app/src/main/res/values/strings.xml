@@ -6,11 +6,11 @@
     <string name="erro_materia">Field subject can\'t be null</string>
     <string name="erro_frequencia_estudo">Field frequency can\'t be null</string>
     <string-array name="tipo_array">
-        <item>Faculdade</item>
-        <item>Concurso</item>
-        <item>Colégio</item>
+        <item>College</item>
+        <item>Public tender</item>
+        <item>School</item>
     </string-array>
-    <string name="diario">Diário</string>
+    <string name="diario">Daily</string>
     <string name="frequencia_estudo">Study frequency</string>
     <string name="ativo">Active</string>
     <string name="salvar">Save</string>
@@ -47,8 +47,15 @@
         <item>DARK</item>
     </string-array>
     <string name="salvo_sucesso">Save successfully!</string>
-    <string name="semanal">Semanal</string>
-    <string name="mensal">Mensal</string>
+    <string name="semanal">Weekly</string>
+    <string name="mensal">Monthly</string>
     <string name="exibe_numero_itens_lista">Show subject\'s list number</string>
     <string name="theme_mode">"Theme mode: "</string>
+    <string name="nome_materia">Subject name</string>
+    <string name="sim">Confirm</string>
+    <string name="nao">Cancel</string>
+    <string name="confirma_delecao">Do you really want to delete the record?</string>
+    <string name="aviso">Alert</string>
+    <string name="ok" translatable="false">Ok</string>
+    <string name="confirmacao">Confirm</string>
 </resources>

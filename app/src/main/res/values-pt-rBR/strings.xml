@@ -50,4 +50,12 @@
         <item>DARK</item>
     </string-array>
     <string name="salvo_sucesso">Salvo com sucesso!</string>
+    <string name="exibe_numero_itens_lista">Mostrar número de matérias</string>
+    <string name="theme_mode">Modo</string>
+    <string name="nome_materia">Nome da matéria</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="confirma_delecao">Deseja realmente deletar o registro?</string>
+    <string name="aviso">Aviso</string>
+    <string name="confirmacao">Confirmação</string>
 </resources>

@@ -28,6 +28,7 @@ public interface MateriaDao {
     @Query("SELECT * FROM materia ORDER BY nome ASC")
     List<Materia> queryAll();
 
-    @Query("SELECT * FROM materia WHERE nome IN (:nome) ORDER BY nome ASC")
+    @Query("SELECT * FROM materia WHERE nome LIKE :nome ORDER BY nome ASC")
     List<Materia> queryByName(String nome);
+
 }

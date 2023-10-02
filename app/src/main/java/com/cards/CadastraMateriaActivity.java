@@ -24,6 +24,9 @@ import com.cards.entites.enums.FrequenciaMateria;
 import com.cards.entites.enums.TipoMateria;
 import com.cards.repository.MateriaDatabase;
 
+import java.time.Instant;
+import java.util.Date;
+
 public class CadastraMateriaActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText et_materia;
@@ -131,13 +134,15 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
             return;
         }
         String frequencia = rb_frequencia.getText().toString();
-
+        long dataAtual = System.currentTimeMillis();
         materia.setNome(nome);
-        materia.setFrequencia(frequencia);
-        materia.setTipo(this.tipoMateria);
+        materia.setFrequencia(Materia.converteFrequencia(frequencia));
+        materia.setTipo(Materia.converteTipo(this.tipoMateria));
         materia.setStatus(cb_ativo.isActivated());
+        materia.setAtualizadoem(dataAtual);
         MateriaDatabase database = MateriaDatabase.getDatabase(this);
         if(modo == NOVO){
+            materia.setCriadoem(dataAtual);
             database.materiaDao().insert(materia);
         }else{
             database.materiaDao().update(materia);
@@ -190,7 +195,7 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
         String[] tipoArray = getResources().getStringArray(R.array.tipo_array);
         int selectedIndex = -1;
         for (int i = 0; i < tipoArray.length; i++) {
-            if (tipoArray[i].toUpperCase().equals(materia.getTipo())) {
+            if (Materia.converteTipo(tipoArray[i].toUpperCase()) == materia.getTipo()) {
                 selectedIndex = i;
                 break;
             }
@@ -202,14 +207,14 @@ public class CadastraMateriaActivity extends AppCompatActivity implements Adapte
         // FREQUENCIA - RADIO GROUP
         RadioGroup radioGroup = findViewById(R.id.radio_group_frequencia);
         int radioGroupId = -1;
-        switch(materia.getFrequencia().toUpperCase()){
-            case "DIÁRIO":
+        switch(materia.getFrequencia()){
+            case 1:
                 radioGroupId = R.id.radio_diario;
                 break;
-            case "SEMANAL":
+            case 2:
                 radioGroupId = R.id.radio_semanal;
                 break;
-            case "MENSAL":
+            case 3:
                 radioGroupId = R.id.radio_mensal;
                 break;
         }

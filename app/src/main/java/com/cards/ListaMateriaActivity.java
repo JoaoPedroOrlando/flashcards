@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.cards.entites.enums.FrequenciaMateria;
 import com.cards.entites.enums.TipoMateria;
 import com.cards.helpers.ThemePreferences;
 import com.cards.repository.MateriaDatabase;
+import com.cards.utils.UtilsGUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,7 @@ public class ListaMateriaActivity extends AppCompatActivity {
     private ActionMode actionMode;
     private int        posicaoSelecionada = -1;
     private View       viewSelecionada;
+    private EditText editTextPesquisaPorNome;
 
 
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
@@ -132,7 +136,7 @@ public class ListaMateriaActivity extends AppCompatActivity {
                         return true;
             }
         });
-
+        this.editTextPesquisaPorNome = findViewById(R.id.editTextNomeMateria);
         popularLista();
     }
 
@@ -150,11 +154,21 @@ public class ListaMateriaActivity extends AppCompatActivity {
     }
 
     public void excluirMateriaSelecionada(){
-        Materia materia = listMaterias.get(posicaoSelecionada);
-        listMaterias.remove(posicaoSelecionada);
-        MateriaDatabase database = MateriaDatabase.getDatabase(this);
-        database.materiaDao().delete(materia);
-        adapter.notifyDataSetChanged();
+        String msg = getString(R.string.confirma_delecao);
+        DialogInterface.OnClickListener listener = (dialog,which)->{
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Materia materia = listMaterias.get(posicaoSelecionada);
+                            listMaterias.remove(posicaoSelecionada);
+                            MateriaDatabase database = MateriaDatabase.getDatabase(this);
+                            database.materiaDao().delete(materia);
+                            adapter.notifyDataSetChanged();
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                };
+        UtilsGUI.confirmaAcao(this, msg, listener);
     }
 
     @Override
@@ -203,5 +217,13 @@ public class ListaMateriaActivity extends AppCompatActivity {
         else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         setContentView(R.layout.activity_lista_materia);
+    }
+
+    public void onPesquisaMateriaPorNome(View view){
+        String nome  = this.editTextPesquisaPorNome.getText().toString();
+        MateriaDatabase database = MateriaDatabase.getDatabase(this);
+        List<Materia> materiasList = database.materiaDao().queryByName("%"+nome+"%");
+        adapter = new MateriaAdapter(this,materiasList);
+        listView.setAdapter(adapter);
     }
 }
